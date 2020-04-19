@@ -2,7 +2,8 @@
 
 class Shas
 
-  def initialize(_externals)
+  def initialize(externals)
+    @externals = externals
   end
 
   def alive?
@@ -14,7 +15,15 @@ class Shas
   end
 
   def sha
-    ENV['SHA']
+    env['SHA']
+  end
+
+  private
+
+  attr_reader :externals
+
+  def env
+    externals.env
   end
 
 end

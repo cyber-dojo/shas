@@ -2,7 +2,7 @@
 require_relative 'test_base'
 require 'uri'
 
-class ShasTest < TestBase
+class IndexTest < TestBase
 
   def self.id58_prefix
     'xRa'

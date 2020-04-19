@@ -2,4 +2,8 @@
 
 class Externals
 
+  def env
+    @env ||= ENV
+  end
+  
 end
