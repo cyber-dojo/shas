@@ -31,9 +31,9 @@ demo()
   curl_json_body_200 ready
   curl_json_body_200 sha
   echo
-  curl_200           assets/app.css 'Content-Type: text/css'
+  curl_200  assets/app.css 'Content-Type: text/css'
   echo
-  #curl_200           shas/index chooser
+  curl_200  index saver
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -25,9 +25,24 @@ class App < AppBase
   get '/index', provides:[:html] do
     respond_to do |format|
       format.html do
+        set_view_data
         erb :'index'
       end
     end
+  end
+
+  private
+
+  def set_view_data
+    @XX_names = %w(
+      custom-chooser exercises-chooser languages-chooser
+      custom-start-points exercises-start-points languages-start-points
+      avatars creator differ repler runner saver
+    )
+    @names = %w(
+      saver
+    )
+    #@web_sha = ENV['SHA']
   end
 
 end
