@@ -69,7 +69,7 @@ curl_ready()
 {
   local -r service_name="${1}"
   local -r port="${2}"
-  local -r path=$([ "${service_name}" == 'nginx' ] && echo 'sha.txt' || echo 'ready?')
+  local -r path=$([ "${service_name}" == 'nginx' ] && echo 'sha' || echo 'ready?')
 
   rm -f $(ready_filename)
   curl \

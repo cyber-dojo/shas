@@ -59,17 +59,7 @@ class AppBase < Sinatra::Base
       }
     }
     exception = info[:exception]
-    if error.instance_of?(::HttpJsonHash::ServiceError)
-      exception[:http_service] = {
-        path:error.path,
-        args:error.args,
-        name:error.name,
-        body:error.body,
-        message:error.message
-      }
-    else
-      exception[:message] = error.message
-    end
+    exception[:message] = error.message
     @diagnostic = JSON.pretty_generate(info)
     puts @diagnostic
     erb :error
