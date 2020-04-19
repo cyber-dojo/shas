@@ -34,15 +34,11 @@ class App < AppBase
   private
 
   def set_view_data
-    @XX_names = %w(
+    @names = %w(
       custom-chooser exercises-chooser languages-chooser
       custom-start-points exercises-start-points languages-start-points
-      avatars creator differ repler runner saver
+      avatars creator differ repler runner saver web
     )
-    @names = %w(
-      saver
-    )
-    #@web_sha = ENV['SHA']
   end
 
 end
