@@ -1,0 +1,47 @@
+
+fullnameOverride: "shas"
+
+replicaCount: 3
+
+service:
+  annotations:
+    prometheus.io/scrape: "true"
+
+volumes:
+  - name: shas-tmp-dir
+    emptyDir:
+      medium: Memory
+      sizeLimit: "16Mi"
+
+podSecurityContext:
+  runAsUser: 65534 # nobody
+  fsGroup: 65534 # nobody
+
+containers:
+  - name: shas
+    securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
+    volumeMounts:
+      - name: shas-tmp-dir
+        mountPath: /tmp
+        readOnly: false
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 500m
+        memory: 128Mi
+    livenessProbe:
+      path: /alive?
+    readinessProbe:
+      path: /ready?
+
+envFromSecret: {}
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
