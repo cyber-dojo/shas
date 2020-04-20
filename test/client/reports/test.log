@@ -1,31 +1,199 @@
-Run options: --seed 29674
+Run options: --seed 54528
 
 # Running:
 
-/usr/local/bundle/gems/selenium-webdriver-3.142.7/lib/selenium/webdriver/remote/driver.rb:39: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
+./usr/local/bundle/gems/selenium-webdriver-3.142.7/lib/selenium/webdriver/remote/driver.rb:39: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
 /usr/local/bundle/gems/selenium-webdriver-3.142.7/lib/selenium/webdriver/remote/bridge.rb:44: warning: The called method `handshake' is defined here
-....
+<html><head>
+    <meta charset="utf-8">
+    <meta name="description" content="Free Online Coding Dojo">
+    <meta name="keywords" content="Free Online Coding Dojo Kata Deliberate Software Team Practice">
+    <meta name="author" content="Jon Jagger">
+    <link rel="stylesheet" href="assets/app.css">
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">const cd = {};</script>
+  </head>
+  <body>
+    
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-Finished in 6.690240s, 0.5979 runs/s, 2.6905 assertions/s.
+  const fillIn = (name, sha) => {
+    const tag = sha.substring(0,7);
+    $(`tr#${name} td:nth-child(2)`).text(tag);
+    $(`tr#${name} td:nth-child(3)`).empty().append(
+      $('<a>', {
+        href: `https://github.com/cyber-dojo/${name}/tree/${sha}`,
+        text: 'repo'
+      })
+    );
+    $(`tr#${name} td:nth-child(4)`).empty().append(
+      $('<a/>', {
+        href: `https://hub.docker.com/r/cyberdojo/${name}/tags`,
+        text: 'image'
+      })
+    );
+  };
 
-4 runs, 18 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to //tmp/reports. 18028 / 39575 LOC (45.55%) covered.
+  const ajaxSha = (name, url, extractSha) => {
+    $.ajax({
+      url: url,
+      type: 'GET',
+      success: (data) => fillIn(name, extractSha(data)),
+      error: (jq,status,thrown) => {
+        const msg = {js:jq, status:status, thrown:thrown };
+        alert(`${name} => ${JSON.stringify(msg)}`);
+      }
+    });
+  };
 
-Slowest 4 tests are...
-6.4980 - xRae5D:index_test.rb:13:|PATH /shas/index |shows service shas |with links to repo and image
-0.0322 - d5ae5K:alive_test.rb:12:its alive!                                      
-0.0036 - de3p23:sha_test.rb:12:sha is 40-char git commit sha                     
+  //ajaxSha('nginx', '/sha.txt', (sha) => sha);
+  ["custom-chooser", "exercises-chooser", "languages-chooser", "custom-start-points", "exercises-start-points", "languages-start-points", "avatars", "creator", "differ", "repler", "runner", "saver", "shas"].forEach((name) => ajaxSha(name, `/${name}/sha`, (data) => data.sha));
+
+});
+//--></script>
+
+<div id="shas-page">
+  <div id="shas-box">
+    <table id="shas">
+      
+      <tbody><tr id="avatars">
+        <td>avatars</td>
+        <td>1fce37b</td>
+        <td><a href="https://github.com/cyber-dojo/avatars/tree/1fce37b8bf0d89a6fef5bc7354e392cbe6af9767">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/avatars/tags">image</a></td>
+      </tr>
+      
+      <tr id="creator">
+        <td>creator</td>
+        <td>f218958</td>
+        <td><a href="https://github.com/cyber-dojo/creator/tree/f21895840c7878027059f3d8eae71e3280653dbc">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/creator/tags">image</a></td>
+      </tr>
+      
+      <tr id="custom-chooser">
+        <td>custom-chooser</td>
+        <td>a05c92c</td>
+        <td><a href="https://github.com/cyber-dojo/custom-chooser/tree/a05c92cfedd88dd13a3635b29243bc78dbf75eae">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/custom-chooser/tags">image</a></td>
+      </tr>
+      
+      <tr id="custom-start-points">
+        <td>custom-start-points</td>
+        <td>5b405c6</td>
+        <td><a href="https://github.com/cyber-dojo/custom-start-points/tree/5b405c69381df51ec02af3818200c8fe28ce16eb">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/custom-start-points/tags">image</a></td>
+      </tr>
+      
+      <tr id="differ">
+        <td>differ</td>
+        <td>9ab5243</td>
+        <td><a href="https://github.com/cyber-dojo/differ/tree/9ab524318f83f3c6b6d70cba86f77af843121808">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/differ/tags">image</a></td>
+      </tr>
+      
+      <tr id="exercises-chooser">
+        <td>exercises-chooser</td>
+        <td>4e00b5f</td>
+        <td><a href="https://github.com/cyber-dojo/exercises-chooser/tree/4e00b5f0b2f0d1b88d298b8bcebec1397401c31f">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/exercises-chooser/tags">image</a></td>
+      </tr>
+      
+      <tr id="exercises-start-points">
+        <td>exercises-start-points</td>
+        <td>b57f4f5</td>
+        <td><a href="https://github.com/cyber-dojo/exercises-start-points/tree/b57f4f5136ab49bd6b96779855d3750b51a5a85e">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/exercises-start-points/tags">image</a></td>
+      </tr>
+      
+      <tr id="languages-chooser">
+        <td>languages-chooser</td>
+        <td>e148939</td>
+        <td><a href="https://github.com/cyber-dojo/languages-chooser/tree/e148939cf32380912e3fa228bed766fcd6401dc8">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/languages-chooser/tags">image</a></td>
+      </tr>
+      
+      <tr id="languages-start-points">
+        <td>languages-start-points</td>
+        <td>d26be0e</td>
+        <td><a href="https://github.com/cyber-dojo/languages-start-points/tree/d26be0eaecc42f39b97a029f0a32383ce140eea8">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/languages-start-points/tags">image</a></td>
+      </tr>
+      
+      <tr id="repler">
+        <td>repler</td>
+        <td>6a835b3</td>
+        <td><a href="https://github.com/cyber-dojo/repler/tree/6a835b3ad1c9f66996cb50a6dd0ff54ec2b65c00">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/repler/tags">image</a></td>
+      </tr>
+      
+      <tr id="runner">
+        <td>runner</td>
+        <td>65b6c84</td>
+        <td><a href="https://github.com/cyber-dojo/runner/tree/65b6c849d4bb95ce92681a89ae48832a45031563">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/runner/tags">image</a></td>
+      </tr>
+      
+      <tr id="saver">
+        <td>saver</td>
+        <td>8930f8c</td>
+        <td><a href="https://github.com/cyber-dojo/saver/tree/8930f8c27061dba65c60c2216ee16dbde6389761">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/saver/tags">image</a></td>
+      </tr>
+      
+      <tr id="shas">
+        <td>shas</td>
+        <td>39cb38f</td>
+        <td><a href="https://github.com/cyber-dojo/shas/tree/39cb38f7c10b481c6b7348105189dee6920a6cee">repo</a></td>
+        <td><a href="https://hub.docker.com/r/cyberdojo/shas/tags">image</a></td>
+      </tr>
+      
+    </tbody></table>
+  </div>
+</div>
+
+  
+
+</body></html>
+Unable to find css "#avatarsx"
+E..SimpleCov failed with exit 1
+
+Finished in 7.737850s, 0.5169 runs/s, 0.7754 assertions/s.
+
+  1) Error:
+IndexTest#test_
+id58 'e5D',
+'|PATH /shas/index |shows service shas |with links to repo and image':
+Capybara::ElementNotFound: Unable to find css "#avatarsx"
+    /usr/local/bundle/gems/capybara-3.31.0/lib/capybara/node/finders.rb:302:in `block in synced_resolve'
+    /usr/local/bundle/gems/capybara-3.31.0/lib/capybara/node/base.rb:83:in `synchronize'
+    /usr/local/bundle/gems/capybara-3.31.0/lib/capybara/node/finders.rb:291:in `synced_resolve'
+    /usr/local/bundle/gems/capybara-3.31.0/lib/capybara/node/finders.rb:52:in `find'
+    /usr/local/bundle/gems/capybara-3.31.0/lib/capybara/session.rb:753:in `find'
+    /test/client/index_test.rb:26:in `block (2 levels) in <class:IndexTest>'
+    /test/client/index_test.rb:24:in `each'
+    /test/client/index_test.rb:24:in `block in <class:IndexTest>'
+    /test/id58_test_base.rb:36:in `instance_eval'
+    /test/id58_test_base.rb:36:in `block in test'
+
+4 runs, 6 assertions, 0 failures, 1 errors, 0 skips
+Coverage report generated for MiniTest to //tmp/reports. 18038 / 39575 LOC (45.58%) covered.
+
+Slowest 3 tests are...
+0.0586 - de3p23:sha_test.rb:12:sha is 40-char git commit sha                     
 0.0012 - a8615D:ready_test.rb:13:its ready                                       
+0.0009 - d5ae5K:alive_test.rb:12:its alive!                                      
 
 
                  failures |       0   <=     0 | [32m true [0m
-                   errors |       0   <=     0 | [32m true [0m
+                   errors |       1   <=     0 | [31m false [0m
                  warnings |       2   <=     2 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    6.69   <=    15 | [32m true [0m
+        duration(test)[s] |    7.74   <=    10 | [32m true [0m
                     tests |       4   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
-      coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
+      coverage(tester)[%] |   97.83   >=   100 | [31m false [0m
      lines(tester/tested) |    0.88   >=   0.8 | [32m true [0m
-      hits(tested/tester) |    0.36   >=   0.3 | [32m true [0m
+      hits(tested/tester) |    0.45   >=   0.3 | [32m true [0m
 
