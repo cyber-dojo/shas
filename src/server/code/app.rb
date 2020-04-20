@@ -37,7 +37,7 @@ class App < AppBase
     @names = %w(
       custom-chooser exercises-chooser languages-chooser
       custom-start-points exercises-start-points languages-start-points
-      avatars creator differ repler runner saver web
+      avatars creator differ repler runner saver shas web
     )
   end
 

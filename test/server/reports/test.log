@@ -1,28 +1,28 @@
-Run options: --seed 32698
+Run options: --seed 22537
 
 # Running:
 
 ......
 
-Finished in 0.284045s, 21.1234 runs/s, 88.0142 assertions/s.
+Finished in 0.133934s, 44.7980 runs/s, 194.1248 assertions/s.
 
-6 runs, 25 assertions, 0 failures, 0 errors, 0 skips
+6 runs, 26 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to //tmp/reports. 11616 / 22460 LOC (51.72%) covered.
 
 Slowest 5 tests are...
-0.1698 - Q3p2Je:assets_test.rb:12:|GET /assets/app.css is served                 
-0.0532 - de3p23:sha_test.rb:12:sha is 40-char git commit sha                     
-0.0439 - 304q5e:index_test.rb:12:index page has entry for each service           
-0.0024 - q7EF9r:error_test.rb:12:|any internal error |is a 500 error             
-0.0008 - a8615D:ready_test.rb:12:ready is true                                   
-0.0007 - d5ae5K:alive_test.rb:12:its alive!                                      
+0.0849 - Q3p2Je:assets_test.rb:12:|GET /assets/app.css is served                 
+0.0211 - d5ae5K:alive_test.rb:12:its alive!                                      
+0.0167 - q7EF9r:error_test.rb:12:|any internal error |is a 500 error             
+0.0032 - 304q5e:index_test.rb:12:index page has entry for each service           
+0.0010 - a8615D:ready_test.rb:12:ready is true                                   
+0.0009 - de3p23:sha_test.rb:12:sha is 40-char git commit sha                     
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.28   <=     1 | [32m true [0m
+        duration(test)[s] |    0.13   <=     1 | [32m true [0m
                     tests |       6   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
