@@ -14,10 +14,13 @@ source "${SH_DIR}/test_in_containers.sh"
 build_test_tag_publish()
 {
   build_images
+  tag_the_image
+  if [ "${1:-}" == '--no-test' ]; then
+    exit 0
+  fi  
   containers_up "$@"
   test_in_containers "$@"
   containers_down
-  tag_the_image
   on_ci_publish_tagged_images
 }
 
