@@ -17,8 +17,9 @@ build_test_tag_publish()
   tag_the_image
   if [ "${1:-}" == '--no-test' ]; then
     exit 0
-  fi  
+  fi
   containers_up "$@"
+  sleep 2
   test_in_containers "$@"
   containers_down
   on_ci_publish_tagged_images
