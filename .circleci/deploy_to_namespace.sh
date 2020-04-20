@@ -41,4 +41,4 @@ helm upgrade \
   --values .circleci/shas-values.yaml \
   ${NAMESPACE}-shas \
   praqma/cyber-dojo-service \
-  --version 0.2.4
+  --version 0.2.5
