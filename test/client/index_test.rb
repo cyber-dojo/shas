@@ -19,7 +19,7 @@ class IndexTest < TestBase
     service_names = %w(
       custom-chooser exercises-chooser languages-chooser
       custom-start-points exercises-start-points languages-start-points
-      avatars creator differ repler runner saver web
+      avatars creator differ repler runner saver
     )
     service_names.sort.each do |name|
       text = find('#' + "#{name}").text
@@ -42,7 +42,6 @@ class IndexTest < TestBase
     'repler'  => '6a835b3ad1c9f66996cb50a6dd0ff54ec2b65c00',
     'runner'  => '65b6c849d4bb95ce92681a89ae48832a45031563',
     'saver'   => '8930f8c27061dba65c60c2216ee16dbde6389761',
-    'web'     => 'd8ae9c8b5a46f61481932c7ad5b3a46f597b8114',
   }
 
 end

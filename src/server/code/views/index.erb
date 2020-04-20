@@ -32,7 +32,7 @@ $(() => {
     });
   };
 
-  ajaxSha('nginx', '/sha.txt', (sha) => sha);
+  //ajaxSha('nginx', '/sha.txt', (sha) => sha);
   <%= @names %>.forEach((name) => ajaxSha(name, `/${name}/sha`, (data) => data.sha));
 
 });
@@ -41,7 +41,7 @@ $(() => {
 <div id="shas-page">
   <div id="shas-box">
     <table id="shas">
-      <% (@names + ['nginx']).sort.each do |name| %>
+      <% @names.sort.each do |name| %>
       <tr id="<%= name %>">
         <td><%= name %></td>
         <td>?</td>
