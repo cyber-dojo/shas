@@ -92,8 +92,6 @@ run_tests()
   echo "${type} test status == ${status}"
   if [ "${status}" != '0' ]; then
     docker logs "${container_name}"
-    echo '~~~~~~~~~~~~~~~~~~~~~~~'
-    docker logs cyber-dojo-nginx-shas-stub
   fi
   return ${status}
 }

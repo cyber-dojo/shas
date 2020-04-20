@@ -12,7 +12,6 @@ services:
     depends_on:
       - client
     image: cyberdojo/nginx-shas-stub
-    container_name: cyber-dojo-nginx-shas-stub
     init: true
     ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
