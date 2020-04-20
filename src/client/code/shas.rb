@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Chooser
+class Shas
 
   def initialize(_externals)
   end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'chooser.rb'
+require_relative 'shas.rb'
 require_relative 'app_base'
 
 class App < AppBase
@@ -13,7 +13,7 @@ class App < AppBase
   end
 
   def target
-    Chooser.new(@externals)
+    Shas.new(@externals)
   end
 
   get_probe(:alive?) # curl/k8s
