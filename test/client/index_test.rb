@@ -22,9 +22,15 @@ class IndexTest < TestBase
       avatars creator differ repler runner saver
     )
     service_names.sort.each do |name|
-      text = find('#' + "#{name}").text
+      css = '#' + "#{name}"
+      text = page.find(css).text
       assert text.start_with?("#{name} #{STUBBED_SHAS[name][0...7]}"), name+':'+text
     end
+  rescue Capybara::ElementNotFound
+    # :nocov:
+    puts page.html
+    raise
+    # :nocov:
   end
 
   private
