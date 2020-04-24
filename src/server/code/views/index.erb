@@ -9,7 +9,7 @@ $(() => {
     $(`tr#${name} td:nth-child(3)`).empty().append(
       $('<a>', {
         href: `https://github.com/cyber-dojo/${name}/tree/${sha}`,
-        text: 'repo'
+        text: 'commit'
       })
     );
     $(`tr#${name} td:nth-child(4)`).empty().append(
