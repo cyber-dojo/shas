@@ -1,7 +1,7 @@
 
 fullnameOverride: "shas"
 
-replicaCount: 3
+replicaCount: 1
 
 service:
   port: 4522
@@ -37,7 +37,7 @@ containers:
         memory: 64Mi
     livenessProbe:
       path: /alive?
-      port: 4522      
+      port: 4522
     readinessProbe:
       path: /ready?
       port: 4522
