@@ -19,7 +19,7 @@ class IndexTest < TestBase
     service_names = %w(
       custom-chooser exercises-chooser languages-chooser
       custom-start-points exercises-start-points languages-start-points
-      avatars creator differ repler runner saver
+      avatars creator differ runner saver
     )
     service_names.sort.each do |name|
       css = '#' + "#{name}"
@@ -45,7 +45,6 @@ class IndexTest < TestBase
     'avatars' => '1fce37b8bf0d89a6fef5bc7354e392cbe6af9767',
     'creator' => 'f21895840c7878027059f3d8eae71e3280653dbc',
     'differ'  => '9ab524318f83f3c6b6d70cba86f77af843121808',
-    'repler'  => '6a835b3ad1c9f66996cb50a6dd0ff54ec2b65c00',
     'runner'  => '65b6c849d4bb95ce92681a89ae48832a45031563',
     'saver'   => '8930f8c27061dba65c60c2216ee16dbde6389761',
   }
