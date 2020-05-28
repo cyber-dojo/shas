@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require_relative '../id58_test_base'
 require_relative 'capture_stdout_stderr'
-require_src 'app'
-require_src 'externals'
+require_source 'app'
+require_source 'externals'
 
 class TestBase < Id58TestBase
   include CaptureStdoutStderr
