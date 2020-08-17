@@ -15,13 +15,25 @@ build_test_tag_publish()
 {
   build_images
   tag_the_image
-  if [ "${1:-}" == '--no-test' ]; then
-    exit 0
-  fi
+  exit_zero_if_build_only "$@"
   containers_up "$@"
   test_in_containers "$@"
   containers_down
   on_ci_publish_tagged_images
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+exit_zero_if_build_only()
+{
+  if build_only_arg "${1:-}" ; then
+    exit 0
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+build_only_arg()
+{
+  [ "${1:-}" == '--build-only' ] || [ "${1:-}" == '-bo' ]
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,6 +43,9 @@ tag_the_image()
   local -r sha="$(image_sha)"
   local -r tag="${sha:0:7}"
   docker tag "${image}:latest" "${image}:${tag}"
+  echo
+  echo "CYBER_DOJO_SHAS_SHA=${sha}"
+  echo "CYBER_DOJO_SHAS_TAG=${tag}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

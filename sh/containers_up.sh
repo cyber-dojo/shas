@@ -103,9 +103,6 @@ exit_if_unclean()
   local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
   log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
 
-  local -r instance_var_not_initialized_warning="metric.rb:(.*): warning: instance variable @all_labels_preset not initialized"
-  log=$(strip_known_warning "${log}" "${instance_var_not_initialized_warning}")
-
   printf "Checking ${container_name} started cleanly..."
   local -r line_count=$(echo -n "${log}" | grep -c '^')
   # 3 lines on Thin (Unicorn=6, Puma=6)
