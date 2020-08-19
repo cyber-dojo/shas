@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 
 # Setting --project-name is required to ensure it is
-# not custom-chooser (default from the root dir)
+# not shas (default from the root dir)
 # which would be the same as the main docker-compose.yml
 # service-name and would prevent .sh scripts which obtain
 # the container-name from the service-name from working.

@@ -17,7 +17,7 @@ class IndexTest < TestBase
   ) do
     visit('/shas/index')
     service_names = %w(
-      custom-chooser exercises-chooser languages-chooser
+      exercises-chooser languages-chooser
       custom-start-points exercises-start-points languages-start-points
       avatars creator differ runner saver
     )
