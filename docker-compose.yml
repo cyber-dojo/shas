@@ -9,7 +9,7 @@ services:
   nginx:
     image: cyberdojo/nginx-shas-stub
     build:
-      context: src/nginx_stub
+      context: source/nginx_stub
     depends_on:
       - client
     init: true
@@ -22,7 +22,7 @@ services:
     user: ${CYBER_DOJO_CLIENT_USER}
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CLIENT_PORT ]
-      context: src/client
+      context: source/client
     depends_on:
       - ${CYBER_DOJO_SERVER_NAME}
       - selenium
@@ -38,7 +38,7 @@ services:
     user: ${CYBER_DOJO_SERVER_USER}
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_SHAS_PORT ]
-      context: src/server
+      context: source/server
     depends_on:
       - selenium
     ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]

@@ -28,7 +28,7 @@ augmented_docker_compose()
                          saver \
                         puller \
                       selenium \
-    | tee /tmp/augmented-docker-compose.peek.yml \
+    | tee /tmp/augmented-docker-compose.shas.peek.yml \
     | docker-compose \
         --project-name cyber-dojo \
         --file -                  \

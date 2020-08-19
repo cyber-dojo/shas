@@ -11,7 +11,7 @@ source "${SH_DIR}/image_sha.sh"
 source "${SH_DIR}/test_in_containers.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_test_tag_publish()
+build_tag_test_publish()
 {
   build_images
   tag_the_image
@@ -73,4 +73,4 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_test_tag_publish "$@"
+build_tag_test_publish "$@"
