@@ -91,7 +91,7 @@ curl_ready()
 
 # - - - - - - - - - - - - - - - - - - -
 ready_response() { cat "$(ready_filename)"; }
-ready_filename() { printf /tmp/curl-exercises-chooser-ready-output; }
+ready_filename() { printf /tmp/curl-shas-ready-output; }
 
 # - - - - - - - - - - - - - - - - - - -
 exit_if_unclean()

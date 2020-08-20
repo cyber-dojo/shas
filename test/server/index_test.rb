@@ -27,7 +27,6 @@ class IndexTest < TestBase
   end
 
   SERVICE_NAMES = %w(
-    exercises-chooser languages-chooser
     custom-start-points exercises-start-points languages-start-points
     avatars creator differ runner saver shas
   )

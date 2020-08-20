@@ -77,7 +77,7 @@ curl_200()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 port() { echo -n "${CYBER_DOJO_SHAS_PORT}"; }
 tab() { printf '\t'; }
-log_filename() { echo -n /tmp/exercises-chooser.log ; }
+log_filename() { echo -n /tmp/shas.log ; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 api_demo "$@"

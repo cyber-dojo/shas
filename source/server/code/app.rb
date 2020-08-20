@@ -35,7 +35,6 @@ class App < AppBase
 
   def set_view_data
     @names = %w(
-      exercises-chooser languages-chooser
       custom-start-points exercises-start-points languages-start-points
       avatars creator differ runner puller saver shas web
     )
