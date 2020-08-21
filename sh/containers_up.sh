@@ -100,16 +100,13 @@ exit_if_unclean()
   local -r container_name=$(service_container ${service_name})
   local log=$(docker logs "${container_name}" 2>&1)
 
-  local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
-  log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
+  #local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
+  #log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
 
   printf "Checking ${container_name} started cleanly..."
   local -r line_count=$(echo -n "${log}" | grep -c '^')
   # 3 lines on Thin (Unicorn=6, Puma=6)
-  #Thin web server (v1.7.2 codename Bachmanity)
-  #Maximum connections set to 1024
-  #Listening on 0.0.0.0:4523, CTRL+C to stop
-  if [ "${line_count}" == '3' ]; then
+  if [ "${line_count}" == '6' ]; then
     printf 'OK\n'
   else
     printf 'FAIL\n'
