@@ -15,15 +15,7 @@ class Shas
   end
 
   def sha
-    env['SHA']
-  end
-
-  private
-
-  attr_reader :externals
-
-  def env
-    externals.env
+    @externals.env['SHA']
   end
 
 end
