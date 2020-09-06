@@ -24,8 +24,9 @@ augmented_docker_compose()
         exercises-start-points \
         languages-start-points \
                        creator \
-                         saver \
+                         model \
                         runner \
+                         saver \
                       selenium \
     | tee /tmp/augmented-docker-compose.shas.peek.yml \
     | docker-compose \
