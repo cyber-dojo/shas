@@ -1,7 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${root_dir}/sh/container_info.sh"
+source "${SH_DIR}/container_info.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_in_containers()
@@ -25,9 +24,6 @@ test_in_containers()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci() { [ -n "${CIRCLECI:-}" ]; }
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
 {
   local -r user="${1}" # eg nobody
@@ -35,7 +31,7 @@ run_tests()
   local -r reports_dir_name=reports
   local -r tmp_dir=/tmp # fs is read-only with tmpfs at /tmp
   local -r coverage_root=/${tmp_dir}/${reports_dir_name}
-  local -r test_dir="${root_dir}/test/${type}"
+  local -r test_dir="${ROOT_DIR}/test/${type}"
   local -r reports_dir=${test_dir}/${reports_dir_name}
   local -r test_log=test.log
   local -r coverage_code_tab_name=tested
@@ -44,7 +40,7 @@ run_tests()
   if [ "${type}" == 'client' ]; then
     local -r container_name="$(service_container client)"
   else # server
-    local -r container_name="$(service_container ${CYBER_DOJO_SERVER_NAME})"
+    local -r container_name="$(service_container shas)"
   fi
 
   echo

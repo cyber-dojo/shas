@@ -12,9 +12,9 @@ export NO_PROMETHEUS=true
 containers_up()
 {
   if [ "${1:-}" == 'server' ]; then
-    top_container_up ${CYBER_DOJO_SERVER_NAME}
-    wait_until_ready ${CYBER_DOJO_SERVER_NAME}
-    exit_if_unclean  ${CYBER_DOJO_SERVER_NAME}
+    top_container_up shas
+    wait_until_ready shas
+    exit_if_unclean  shas
   else
     top_container_up nginx
     wait_until_ready nginx

@@ -1,5 +1,8 @@
 #!/bin/bash -Eeu
 
+# cyberdojo/service-yaml image lives at
+# https://github.com/cyber-dojo-tools/service-yaml
+
 # Setting --project-name is required to ensure it is
 # not shas (default from the root dir)
 # which would be the same as the main docker-compose.yml
@@ -11,10 +14,6 @@
 # the current working directory is taken as the dir for
 # relative pathnames (eg in volume-mounts) when the
 # yml is received from stdin (--file -).
-
-if [ "${ROOT_DIR:-}" == '' ]; then
-  readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-fi
 
 augmented_docker_compose()
 {
