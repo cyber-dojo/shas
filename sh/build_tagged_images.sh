@@ -27,6 +27,7 @@ remove_all_but_latest()
       fi
     fi
   done
+  docker system prune --force
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
