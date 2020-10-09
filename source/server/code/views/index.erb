@@ -8,14 +8,16 @@ $(() => {
     $(`tr#${name} td:nth-child(2)`).text(tag);
     $(`tr#${name} td:nth-child(3)`).empty().append(
       $('<a>', {
-        href: `https://github.com/cyber-dojo/${name}/tree/${sha}`,
-        text: 'commit'
+          href: `https://github.com/cyber-dojo/${name}/tree/${sha}`,
+        target:'_blank',
+          text: 'commit'
       })
     );
     $(`tr#${name} td:nth-child(4)`).empty().append(
       $('<a/>', {
-        href: `https://hub.docker.com/r/cyberdojo/${name}/tags`,
-        text: 'image'
+          href: `https://hub.docker.com/r/cyberdojo/${name}/tags`,
+        target:'_blank',
+          text: 'image'
       })
     );
   };
