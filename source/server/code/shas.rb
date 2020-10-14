@@ -7,10 +7,12 @@ class Shas
   end
 
   def alive?
+    p "alive? => true"
     true
   end
 
   def ready?
+    p "ready => true"
     true
   end
 
