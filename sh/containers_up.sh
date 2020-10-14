@@ -43,13 +43,13 @@ wait_until_ready()
   local -r container_name=$(service_container ${service_name})
   local -r max_tries=40
   printf "Waiting until ${service_name} is ready"
-  for _ in $(seq ${max_tries}); do
+  for n in $(seq ${max_tries}); do
     if curl_ready "${service_name}" "${port}"; then
       printf '.OK\n\n'
       docker logs "${container_name}"
       return
     else
-      printf .
+      printf ".${n}"
       sleep 0.1
     fi
   done
