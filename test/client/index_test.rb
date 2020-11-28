@@ -18,7 +18,7 @@ class IndexTest < TestBase
     visit('/shas/index')
     service_names = %w(
       custom-start-points exercises-start-points languages-start-points
-      creator differ runner saver
+      creator dashboard differ runner saver
     )
     service_names.sort.each do |name|
       css = '#' + "#{name}"
@@ -38,10 +38,11 @@ class IndexTest < TestBase
     'custom-start-points'    => '5b405c69381df51ec02af3818200c8fe28ce16eb',
     'exercises-start-points' => 'b57f4f5136ab49bd6b96779855d3750b51a5a85e',
     'languages-start-points' => 'd26be0eaecc42f39b97a029f0a32383ce140eea8',
-    'creator' => 'f21895840c7878027059f3d8eae71e3280653dbc',
-    'differ'  => '9ab524318f83f3c6b6d70cba86f77af843121808',
-    'runner'  => '65b6c849d4bb95ce92681a89ae48832a45031563',
-    'saver'   => '8930f8c27061dba65c60c2216ee16dbde6389761',
+    'creator'   => 'f21895840c7878027059f3d8eae71e3280653dbc',
+    'dashboard' => '2d1b82e309ab657a3c2b3a1d361d52dd95ea02f7',
+    'differ'    => '9ab524318f83f3c6b6d70cba86f77af843121808',
+    'runner'    => '65b6c849d4bb95ce92681a89ae48832a45031563',
+    'saver'     => '8930f8c27061dba65c60c2216ee16dbde6389761',
   }
 
 end

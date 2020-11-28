@@ -11,31 +11,33 @@ services:
     build:
       context: source/nginx_stub
     depends_on:
-      - client
+      - shas_client
     init: true
     ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-  client:
+  shas_client:
     image: ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-    user: ${CYBER_DOJO_CLIENT_USER}
+    user: ${CYBER_DOJO_SHAS_CLIENT_USER}
+    container_name: ${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}
     build:
-      args: [ COMMIT_SHA, CYBER_DOJO_CLIENT_PORT ]
+      args: [ COMMIT_SHA, CYBER_DOJO_SHAS_CLIENT_PORT ]
       context: source/client
     depends_on:
-      - shas
+      - shas_server
       - selenium
-    ports: [ "${CYBER_DOJO_CLIENT_PORT}:${CYBER_DOJO_CLIENT_PORT}" ]
+    ports: [ "${CYBER_DOJO_SHAS_CLIENT_PORT}:${CYBER_DOJO_SHAS_CLIENT_PORT}" ]
     read_only: true
     restart: "no"
     tmpfs: /tmp
     volumes: [ "./test:/test/:ro" ]
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-  shas:
+  shas_server:
     image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-    user: ${CYBER_DOJO_SERVER_USER}
+    user: ${CYBER_DOJO_SHAS_SERVER_USER}
+    container_name: ${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_SHAS_PORT ]
       context: source/server

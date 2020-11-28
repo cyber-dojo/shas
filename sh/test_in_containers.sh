@@ -1,51 +1,60 @@
 #!/bin/bash -Eeu
 
-source "${SH_DIR}/container_info.sh"
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_in_containers()
 {
-  local -r client_user="${CYBER_DOJO_CLIENT_USER}"
-  local -r server_user="${CYBER_DOJO_SERVER_USER}"
-  if on_ci; then
-    docker pull cyberdojo/check-test-results:latest
-  fi
   if [ "${1:-}" == 'client' ]; then
     shift
-    run_tests "${client_user}" client "${@:-}"
+    run_client_tests "${@:-}"
   elif [ "${1:-}" == 'server' ]; then
     shift
-    run_tests "${server_user}" server "${@:-}"
+    run_server_tests "${@:-}"
   else
-    run_tests "${client_user}" client "${@:-}"
-    run_tests "${server_user}" server "${@:-}"
+    run_server_tests "${@:-}"
+    run_client_tests "${@:-}"
   fi
   echo All passed
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
+run_client_tests()
+{
+  run_tests \
+    "${CYBER_DOJO_SHAS_CLIENT_USER}" \
+    "${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}" \
+    client "${@:-}";
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
+run_server_tests()
+{
+  run_tests \
+    "${CYBER_DOJO_SHAS_SERVER_USER}" \
+    "${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}" \
+    server "${@:-}";
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
 {
-  local -r user="${1}" # eg nobody
-  local -r type="${2}" # eg client|server
+  local -r USER="${1}"           # eg nobody
+  local -r CONTAINER_NAME="${2}" # eg test_differ_server
+  local -r TYPE="${3}"           # eg server
+
+  #local -r user="${1}" # eg nobody
+  #local -r type="${2}" # eg client|server
   local -r reports_dir_name=reports
   local -r tmp_dir=/tmp # fs is read-only with tmpfs at /tmp
   local -r coverage_root=/${tmp_dir}/${reports_dir_name}
-  local -r test_dir="${ROOT_DIR}/test/${type}"
+  local -r test_dir="${ROOT_DIR}/test/${TYPE}"
   local -r reports_dir=${test_dir}/${reports_dir_name}
   local -r test_log=test.log
   local -r coverage_code_tab_name=tested
   local -r coverage_test_tab_name=tester
 
-  if [ "${type}" == 'client' ]; then
-    local -r container_name="$(service_container client)"
-  else # server
-    local -r container_name="$(service_container shas)"
-  fi
-
   echo
   echo '=================================='
-  echo "Running ${type} tests"
+  echo "Running ${TYPE} tests"
   echo '=================================='
 
   # Remove old copies of files we are about to create
@@ -56,14 +65,14 @@ run_tests()
   docker exec \
     --env COVERAGE_CODE_TAB_NAME=${coverage_code_tab_name} \
     --env COVERAGE_TEST_TAB_NAME=${coverage_test_tab_name} \
-    --user "${user}" \
-    "${container_name}" \
-      sh -c "/test/run.sh ${coverage_root} ${test_log} ${type} ${*:3}"
+    --user "${USER}" \
+    "${CONTAINER_NAME}" \
+      sh -c "/test/run.sh ${coverage_root} ${test_log} ${TYPE} ${*:4}"
   set -e
 
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
   docker exec \
-    "${container_name}" \
+    "${CONTAINER_NAME}" \
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
@@ -84,10 +93,10 @@ run_tests()
   set -e
 
   local -r coverage_path="${reports_dir}/index.html"
-  echo "${type} test coverage at ${coverage_path}"
-  echo "${type} test status == ${status}"
+  echo "${TYPE} test coverage at ${coverage_path}"
+  echo "${TYPE} test status == ${status}"
   if [ "${status}" != '0' ]; then
-    docker logs "${container_name}"
+    docker logs "${CONTAINER_NAME}"
   fi
   return ${status}
 }
