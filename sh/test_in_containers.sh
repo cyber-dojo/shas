@@ -14,6 +14,7 @@ test_in_containers()
     run_client_tests "${@:-}"
   fi
   echo All passed
+  echo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -

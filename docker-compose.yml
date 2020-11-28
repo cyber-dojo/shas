@@ -19,6 +19,7 @@ services:
     image: ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:${CYBER_DOJO_SHAS_TAG}
     user: ${CYBER_DOJO_SHAS_CLIENT_USER}
     container_name: ${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_SHAS_CLIENT_PORT}:${CYBER_DOJO_SHAS_CLIENT_PORT}" ]
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_SHAS_CLIENT_PORT ]
       context: source/client
@@ -26,7 +27,6 @@ services:
       - nginx
       - shas
       - selenium
-    ports: [ "${CYBER_DOJO_SHAS_CLIENT_PORT}:${CYBER_DOJO_SHAS_CLIENT_PORT}" ]
     read_only: true
     restart: "no"
     tmpfs: /tmp
@@ -37,12 +37,10 @@ services:
     image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
     user: ${CYBER_DOJO_SHAS_SERVER_USER}
     container_name: ${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_SHAS_PORT ]
       context: source/server
-    depends_on:
-      - selenium
-    ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
     read_only: true
     restart: "no"
     tmpfs: /tmp

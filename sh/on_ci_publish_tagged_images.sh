@@ -9,6 +9,7 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()
 {
+  echo
   if ! on_ci; then
     echo 'not on CI so not publishing tagged images'
   else
