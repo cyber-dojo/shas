@@ -38,11 +38,9 @@ run_server_tests()
 run_tests()
 {
   local -r USER="${1}"           # eg nobody
-  local -r CONTAINER_NAME="${2}" # eg test_differ_server
+  local -r CONTAINER_NAME="${2}" # eg test_shas_server
   local -r TYPE="${3}"           # eg server
 
-  #local -r user="${1}" # eg nobody
-  #local -r type="${2}" # eg client|server
   local -r reports_dir_name=reports
   local -r tmp_dir=/tmp # fs is read-only with tmpfs at /tmp
   local -r coverage_root=/${tmp_dir}/${reports_dir_name}
