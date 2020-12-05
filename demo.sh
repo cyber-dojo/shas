@@ -2,40 +2,24 @@
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SH_DIR="${ROOT_DIR}/sh"
+
 source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
-source "${SH_DIR}/containers_up.sh"
-source "${SH_DIR}/ip_address.sh"
+source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
+
 export $(echo_versioner_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-api_demo()
+ip_address()
 {
-  build_tagged_images
-  containers_up api-demo
-  echo
-  demo
-  echo
-  if [ "${1:-}" == '--no-browser' ]; then
-    containers_down
+  if [ -n "${DOCKER_MACHINE_NAME:-}" ]; then
+    docker-machine ip ${DOCKER_MACHINE_NAME}
   else
-    open "http://${IP_ADDRESS}:80/shas/index"
+    printf localhost
   fi
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo()
-{
-  echo API
-  curl_json_body_200 alive
-  curl_json_body_200 ready
-  curl_json_body_200 sha
-  echo
-  curl_200  assets/app.css 'Content-Type: text/css'
-  echo
-  curl_200  index saver
-}
+readonly IP_ADDRESS=$(ip_address)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_json_body_200()
@@ -81,4 +65,21 @@ tab() { printf '\t'; }
 log_filename() { echo -n /tmp/shas.log ; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-api_demo "$@"
+build_tagged_images
+augmented_docker_compose up --detach nginx
+server_up_healthy_and_clean
+echo
+echo API
+curl_json_body_200 alive
+curl_json_body_200 ready
+curl_json_body_200 sha
+echo
+curl_200  assets/app.css 'Content-Type: text/css'
+echo
+curl_200  index saver
+echo
+if [ "${1:-}" == '--no-browser' ]; then
+  containers_down
+else
+  open "http://${IP_ADDRESS}:80/shas/index"
+fi
