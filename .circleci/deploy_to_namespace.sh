@@ -9,6 +9,12 @@ readonly CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
 
 gcloud_init
 helm_init
+
+cat "${MY_DIR}/env-var-values.yml" >> "${YAML_VALUES_FILE}"
+echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+cat "${YAML_VALUES_FILE}"
+echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+
 helm_upgrade_probe_yes_prometheus_yes \
    "${NAMESPACE}" \
    "shas" \
