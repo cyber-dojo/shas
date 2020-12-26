@@ -23,12 +23,11 @@ services:
     build:
       args: [ COMMIT_SHA ]
       context: source/client
-    env_file:
-      - .env
     depends_on:
       - nginx
       - shas
       - selenium
+    env_file: [ .env ]
     read_only: true
     restart: "no"
     tmpfs: /tmp
@@ -40,11 +39,10 @@ services:
     user: ${CYBER_DOJO_SHAS_SERVER_USER}
     container_name: ${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}
     ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
-    env_file:
-      - .env
     build:
       args: [ COMMIT_SHA ]
       context: source/server
+    env_file: [ .env ]
     read_only: true
     restart: "no"
     tmpfs: /tmp
