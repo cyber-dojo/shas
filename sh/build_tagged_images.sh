@@ -24,8 +24,8 @@ tag_images_to_latest()
   docker tag ${CYBER_DOJO_SHAS_IMAGE}:$(image_tag)        ${CYBER_DOJO_SHAS_IMAGE}:latest
   docker tag ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:$(image_tag) ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:latest
   echo
-  echo "CYBER_DOJO_SHAS_SHA=$(git_commit_sha)"
-  echo "CYBER_DOJO_SHAS_TAG=$(image_tag)"
+  echo "echo CYBER_DOJO_SHAS_SHA=$(git_commit_sha)"
+  echo "echo CYBER_DOJO_SHAS_TAG=$(image_tag)"
   echo
 }
 
