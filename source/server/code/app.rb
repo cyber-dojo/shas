@@ -36,7 +36,7 @@ class App < AppBase
   def set_view_data
     @names = %w(
       custom-start-points exercises-start-points languages-start-points
-      creator dashboard differ model runner saver shas web
+      creator dashboard differ runner saver shas web
     )
   end
 

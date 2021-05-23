@@ -16,7 +16,6 @@ augmented_docker_compose()
         exercises-start-points \
         languages-start-points \
                        creator \
-                         model \
                         runner \
                          saver \
                       selenium \
