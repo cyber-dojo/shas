@@ -25,7 +25,7 @@ merkely_declare_pipeline()
     --env MERKELY_HOST="${hostname}" \
 		--rm \
 		--volume ${ROOT_DIR}/Merkelypipe.json:/data/Merkelypipe.json \
-		${MERKELY_CHANGE}
+		  ${MERKELY_CHANGE}
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -57,7 +57,7 @@ merkely_log_artifact()
     --env MERKELY_HOST="${hostname}" \
     --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
-    ${MERKELY_CHANGE}
+      ${MERKELY_CHANGE}
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -83,7 +83,7 @@ merkely_log_evidence()
     --env MERKELY_FINGERPRINT=$(merkely_fingerprint) \
     --env MERKELY_EVIDENCE_TYPE=line-coverage \
     --env MERKELY_IS_COMPLIANT=TRUE \
-    --env MERKELY_DESCRIPTION="server & client branch-coverage reports" \
+    --env MERKELY_DESCRIPTION="server & client line-coverage reports" \
     --env MERKELY_USER_DATA="$(evidence_json_path)" \
     --env MERKELY_CI_BUILD_URL=${CIRCLE_BUILD_URL} \
     --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
@@ -91,7 +91,7 @@ merkely_log_evidence()
     --rm \
     --volume "$(evidence_json_path):$(evidence_json_path)" \
     --volume /var/run/docker.sock:/var/run/docker.sock \
-    ${MERKELY_CHANGE}
+      ${MERKELY_CHANGE}
 }
 
 # - - - - - - - - - - - - - - - - - - -
