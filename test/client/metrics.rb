@@ -6,7 +6,7 @@
 MAX = {
   failures:0,
   errors:0,
-  warnings:0,
+  warnings:2,
   skips:0,
 
   duration:10,
@@ -17,8 +17,8 @@ MAX = {
       missed:0,
     },
     branches: {
-       total:0,
-      missed:0,
+       total:2,
+      missed:1,
     }
   },
 
