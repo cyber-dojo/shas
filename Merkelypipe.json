@@ -5,6 +5,6 @@
     "visibility": "public",
     "template": [
         "artifact",
-        "line-coverage"
+        "branch-coverage"
     ]
 }

@@ -2,7 +2,7 @@ require 'simplecov'
 require_relative 'simplecov-json'
 
 SimpleCov.start do
-  #enable_coverage :branch
+  enable_coverage :branch
   filters.clear
   coverage_dir(ENV['COVERAGE_ROOT'])
   #add_group('debug') { |src| puts src.filename; false }

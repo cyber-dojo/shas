@@ -81,7 +81,7 @@ merkely_log_evidence()
     --env MERKELY_OWNER=${MERKELY_OWNER} \
     --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
     --env MERKELY_FINGERPRINT=$(merkely_fingerprint) \
-    --env MERKELY_EVIDENCE_TYPE=line-coverage \
+    --env MERKELY_EVIDENCE_TYPE=branch-coverage \
     --env MERKELY_IS_COMPLIANT=TRUE \
     --env MERKELY_DESCRIPTION="server & client line-coverage reports" \
     --env MERKELY_USER_DATA="$(evidence_json_path)" \

@@ -30,4 +30,4 @@ test_in_containers "$@"
 containers_down
 on_ci_publish_tagged_images
 on_ci_merkely_log_artifact
-#on_ci_merkely_log_evidence # Does not currently create coverage.json file
+on_ci_merkely_log_evidence
