@@ -5,8 +5,8 @@ echo_versioner_env_vars()
 {
   docker run --rm cyberdojo/versioner:latest
   #
-  echo CYBER_DOJO_SHAS_SHA="$(get_image_sha)"
-  echo CYBER_DOJO_SHAS_TAG="$(get_image_tag)"
+  echo CYBER_DOJO_SHAS_SHA="$(git_commit_sha)"
+  echo CYBER_DOJO_SHAS_TAG="$(git_commit_tag)"
   #
   echo CYBER_DOJO_SHAS_CLIENT_IMAGE=cyberdojo/shas-client
   echo CYBER_DOJO_SHAS_CLIENT_PORT=9999
@@ -19,14 +19,26 @@ echo_versioner_env_vars()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-get_image_sha()
+git_commit_sha()
 {
   echo "$(cd "${ROOT_DIR}" && git rev-parse HEAD)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-get_image_tag()
+git_commit_tag()
 {
-  local -r sha="$(get_image_sha)"
+  local -r sha="$(git_commit_sha)"
   echo "${sha:0:7}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_name()
+{
+  echo "${CYBER_DOJO_SHAS_IMAGE}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_sha()
+{
+  docker run --rm $(image_name) sh -c 'echo ${SHA}'
 }

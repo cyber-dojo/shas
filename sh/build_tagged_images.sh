@@ -21,51 +21,21 @@ build_images()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 tag_images_to_latest()
 {
-  docker tag ${CYBER_DOJO_SHAS_IMAGE}:$(image_tag)        ${CYBER_DOJO_SHAS_IMAGE}:latest
-  docker tag ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:$(image_tag) ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:latest
+  docker tag ${CYBER_DOJO_SHAS_IMAGE}:$(git_commit_tag)        ${CYBER_DOJO_SHAS_IMAGE}:latest
+  docker tag ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:$(git_commit_tag) ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:latest
   echo
   echo "echo CYBER_DOJO_SHAS_SHA=$(git_commit_sha)"
-  echo "echo CYBER_DOJO_SHAS_TAG=$(image_tag)"
+  echo "echo CYBER_DOJO_SHAS_TAG=$(git_commit_tag)"
   echo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - -
 check_embedded_env_var()
 {
-  if [ "$(git_commit_sha)" != "$(sha_in_image)" ]; then
-    echo "ERROR: unexpected env-var inside image $(image_name):$(image_tag)"
+  if [ "$(git_commit_sha)" != "$(image_sha)" ]; then
+    echo "ERROR: unexpected env-var inside image $(image_name):$(git_commit_tag)"
     echo "expected: 'SHA=$(git_commit_sha)'"
-    echo "  actual: 'SHA=$(sha_in_image)'"
+    echo "  actual: 'SHA=$(image_sha)'"
     exit 42
   fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - -
-git_commit_sha()
-{
-  echo $(cd "${SH_DIR}" && git rev-parse HEAD)
-}
-
-# - - - - - - - - - - - - - - - - - - - - - -
-image_name()
-{
-  echo "${CYBER_DOJO_SHAS_IMAGE}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - -
-image_sha()
-{
-  echo "${CYBER_DOJO_SHAS_SHA}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - -
-image_tag()
-{
-  echo "${CYBER_DOJO_SHAS_TAG}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - -
-sha_in_image()
-{
-  docker run --rm $(image_name):$(image_tag) sh -c 'echo -n ${SHA}'
 }

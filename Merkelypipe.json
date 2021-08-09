@@ -1,0 +1,10 @@
+{
+    "owner": "cyber-dojo",
+    "name": "shas",
+    "description": "Pipeline Controls for Merkely",
+    "visibility": "public",
+    "template": [
+        "artifact",
+        "line-coverage"
+    ]
+}
