@@ -10,7 +10,7 @@ merkely_log_deployment()
   local -r MERKELY_HOST="${2}"
 
   # Set CYBER_DOJO_SHAS_IMAGE, CYBER_DOJO_SHAS_TAG
-  VERSIONER_URL=https://raw.githubusercontent.com/cyber-dojo/versioner/master
+  local -r VERSIONER_URL=https://raw.githubusercontent.com/cyber-dojo/versioner/master
   export $(curl "${VERSIONER_URL}/app/.env")
   local -r CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
 

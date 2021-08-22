@@ -23,7 +23,7 @@ jobs:
           name: Authenticate with gcloud, deploy to beta with helm
           command: |
             source ./.circleci/deploy_to_namespace.sh
-            deploy_to_namespace    beta
+            deploy_to_namespace beta
 
   log-beta-deployment-to-merkely:
     machine:
@@ -47,7 +47,7 @@ jobs:
           name: Authenticate with gcloud, deploy to prod with helm
           command: |
             source ./.circleci/deploy_to_namespace.sh
-            deploy_to_namespace.   prod
+            deploy_to_namespace prod
 
   log-prod-deployment-to-merkely:
     machine:
