@@ -14,8 +14,10 @@ merkely_log_deployment()
   export $(curl "${VERSIONER_URL}/app/.env")
   export CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
 
-  # Ensure merkely_fingerprint() works
+  # Pull image to ensure merkely_fingerprint() works
+  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   docker pull ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
+  docker logout
 
 	docker run \
     --env MERKELY_COMMAND=log_deployment \

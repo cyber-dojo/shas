@@ -55,7 +55,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: log prod deployment to Merkely
+          name: Log prod deployment to Merkely
           command: |
             source ./.circleci/merkely_log_deployment.sh
             merkely_log_deployment prod https://staging.app.merkely.com
