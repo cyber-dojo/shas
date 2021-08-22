@@ -1,24 +1,20 @@
 #!/bin/bash -Eeu
 
-readonly MERKELY_CHANGE=merkely/change:latest
-readonly MERKELY_OWNER=cyber-dojo
-readonly MERKELY_PIPELINE=shas
-
-# - - - - - - - - - - - - - - - - - - -
-merkely_fingerprint()
-{
-  echo "docker://${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}"
-}
 
 # - - - - - - - - - - - - - - - - - - -
 merkely_log_deployment()
 {
+  local -r MERKELY_OWNER=cyber-dojo
+  local -r MERKELY_PIPELINE=shas
   local -r MERKELY_ENVIRONMENT="${1}"
   local -r MERKELY_HOSTNAME="${2}"
 
+  # Set CYBER_DOJO_SHAS_IMAGE, CYBER_DOJO_SHAS_TAG
   VERSIONER_URL=https://raw.githubusercontent.com/cyber-dojo/versioner/master
   export $(curl "${VERSIONER_URL}/app/.env")
   export CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
+
+  # Ensure merkely_fingerprint() works
   docker pull ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
 
 	docker run \
@@ -33,6 +29,11 @@ merkely_log_deployment()
     --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
     --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
-      ${MERKELY_CHANGE}
+      merkely/change:latest
 }
 
+# - - - - - - - - - - - - - - - - - - -
+merkely_fingerprint()
+{
+  echo "docker://${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}"
+}
