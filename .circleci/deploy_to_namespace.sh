@@ -9,13 +9,18 @@ export $(curl "${VERSIONER_URL}/app/.env")
 readonly CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
 readonly YAML_VALUES_FILE="${MY_DIR}/k8s-general-values.yml"
 
-gcloud_init
-helm_init
+deploy_to_namespace()
+{
+  local -r namespace="${1}"
 
-helm_upgrade_probe_yes_prometheus_yes \
-   "${NAMESPACE}" \
-   "shas" \
-   "${CYBER_DOJO_SHAS_IMAGE}" \
-   "${CYBER_DOJO_SHAS_TAG}" \
-   "${CYBER_DOJO_SHAS_PORT}" \
-   "${YAML_VALUES_FILE}"
+  gcloud_init
+  helm_init
+
+  helm_upgrade_probe_yes_prometheus_yes \
+     "${namespace}" \
+     "shas" \
+     "${CYBER_DOJO_SHAS_IMAGE}" \
+     "${CYBER_DOJO_SHAS_TAG}" \
+     "${CYBER_DOJO_SHAS_PORT}" \
+     "${YAML_VALUES_FILE}"
+}
