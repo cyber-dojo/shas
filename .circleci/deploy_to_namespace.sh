@@ -11,7 +11,7 @@ deploy_to_namespace()
 
   # Set CYBER_DOJO_SHAS_IMAGE, CYBER_DOJO_SHAS_PORT, CYBER_DOJO_SHAS_TAG
   export $(curl "${VERSIONER_URL}/app/.env")
-  readonly CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
+  local -r CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
 
   local -r MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   local -r YAML_VALUES_FILE="${MY_DIR}/k8s-general-values.yml"
