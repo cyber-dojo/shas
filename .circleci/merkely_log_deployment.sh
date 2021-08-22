@@ -7,7 +7,7 @@ merkely_log_deployment()
   local -r MERKELY_OWNER=cyber-dojo
   local -r MERKELY_PIPELINE=shas
   local -r MERKELY_ENVIRONMENT="${1}"
-  local -r MERKELY_HOSTNAME="${2}"
+  local -r MERKELY_HOST="${2}"
 
   # Set CYBER_DOJO_SHAS_IMAGE, CYBER_DOJO_SHAS_TAG
   VERSIONER_URL=https://raw.githubusercontent.com/cyber-dojo/versioner/master
@@ -15,9 +15,7 @@ merkely_log_deployment()
   local -r CYBER_DOJO_SHAS_TAG="${CIRCLE_SHA1:0:7}"
 
   # Pull image to ensure merkely_fingerprint() works
-  echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
   docker pull ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-  docker logout
 
 	docker run \
     --env MERKELY_COMMAND=log_deployment \
@@ -27,7 +25,7 @@ merkely_log_deployment()
     --env MERKELY_DESCRIPTION="Deployed to ${environment} in circleci pipeline" \
     --env MERKELY_ENVIRONMENT="${MERKELY_ENVIRONMENT}" \
     --env MERKELY_CI_BUILD_URL=${CIRCLE_BUILD_URL} \
-    --env MERKELY_HOST="${MERKELY_HOSTNAME}" \
+    --env MERKELY_HOST="${MERKELY_HOST}" \
     --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
     --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
