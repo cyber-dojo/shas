@@ -1,7 +1,7 @@
 {
     "owner": "cyber-dojo",
     "name": "shas",
-    "description": "Microservice for git+image shas UX",
+    "description": "UX for git+image shas",
     "visibility": "public",
     "template": [
         "artifact",
