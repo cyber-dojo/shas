@@ -3,7 +3,7 @@ version: 2
 jobs:
   build-test-publish:
     machine:
-      image: cyberdojo/gcloud-kubectl-helm
+      image: ubuntu-2004:202008-01
     steps:
       - checkout
       - run:
