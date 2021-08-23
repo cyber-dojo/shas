@@ -3,7 +3,7 @@ version: 2
 jobs:
   build-test-publish:
     docker:
-      image: cyberdojo/gcloud-kubectl-helm
+      - image: cyberdojo/gcloud-kubectl-helm
     steps:
       - checkout
       - run:
@@ -27,7 +27,7 @@ jobs:
 
   log-beta-deployment-to-merkely:
     docker:
-      image: cyberdojo/gcloud-kubectl-helm
+      - image: cyberdojo/gcloud-kubectl-helm
     steps:
       - checkout
       - run:
