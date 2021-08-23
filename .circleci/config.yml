@@ -2,8 +2,8 @@ version: 2
 
 jobs:
   build-test-publish:
-    machine:
-      image: ubuntu-2004:202008-01
+    docker:
+      image: cyberdojo/gcloud-kubectl-helm
     steps:
       - checkout
       - run:
@@ -26,8 +26,8 @@ jobs:
             deploy_to_namespace beta
 
   log-beta-deployment-to-merkely:
-    machine:
-      image: ubuntu-2004:202008-01
+    docker:
+      image: cyberdojo/gcloud-kubectl-helm
     steps:
       - checkout
       - run:
