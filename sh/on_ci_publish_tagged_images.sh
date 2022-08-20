@@ -16,5 +16,5 @@ on_ci_publish_tagged_images()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci()
 {
-  [ -n "${CIRCLECI:-}" ]
+  [ -n "${CI:-}" ]
 }
