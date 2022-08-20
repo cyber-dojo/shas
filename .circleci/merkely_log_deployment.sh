@@ -5,7 +5,7 @@ readonly MERKELY_OWNER=cyber-dojo
 readonly MERKELY_PIPELINE=shas
 
 # - - - - - - - - - - - - - - - - - - -
-merkely_fingerprint()
+kosli_fingerprint()
 {
   echo "docker://${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}"
 }
