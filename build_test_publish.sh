@@ -29,5 +29,6 @@ client_up_healthy_and_clean "$@"
 test_in_containers "$@"
 containers_down
 on_ci_publish_tagged_images
-on_ci_kosli_log_artifact
-on_ci_kosli_log_evidence
+on_ci_kosli_report_artifact_creation
+on_ci_kosli_report_coverage_evidence
+on_ci_kosli_assert_artifact

@@ -1,31 +1,78 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
-# ROOT_DIR must be set
+export KOSLI_OWNER=cyber-dojo
+export KOSLI_PIPELINE=shas
 
-MERKELY_CHANGE=merkely/change:latest
-MERKELY_OWNER=cyber-dojo
-MERKELY_PIPELINE=shas
+readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
+readonly KOSLI_HOST_PRODUCTION=https://app.kosli.com
 
-# - - - - - - - - - - - - - - - - - - -
-kosli_fingerprint()
-{
-  echo "docker://${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}"
-}
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_declare_pipeline()
 {
   local -r hostname="${1}"
 
-	docker run \
-		--env MERKELY_COMMAND=declare_pipeline \
-    --env MERKELY_OWNER=${MERKELY_OWNER} \
-    --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
-		--env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
-    --env MERKELY_HOST="${hostname}" \
-		--rm \
-		--volume ${ROOT_DIR}/Merkelypipe.json:/data/Merkelypipe.json \
-		  ${MERKELY_CHANGE}
+  kosli pipeline declare \
+    --description "UX for git+image shas" \
+    --visibility public \
+    --template artifact,branch-coverage \
+    --host "${hostname}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_report_artifact_creation()
+{
+  local -r hostname="${1}"
+
+  kosli pipeline artifact report creation \
+    "$(artifact_name)" \
+      --artifact-type docker \
+      --repo-root ../../.. \
+      --host "${hostname}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_report_coverage_evidence()
+{
+  local -r hostname="${1}"
+
+  kosli pipeline artifact report evidence generic \
+    "$(artifact_name)" \
+      --artifact-type docker \
+      --description "server & client branch-coverage reports" \
+      --evidence-type "branch-coverage" \
+      --user-data "$(coverage_json_path)" \
+      --host "${hostname}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_assert_artifact()
+{
+  local -r hostname="${1}"
+
+  kosli assert artifact \
+    "$(artifact_name)" \
+      --artifact-type docker \
+      --host "${hostname}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_expect_deployment()
+{
+  local -r environment="${1}"
+  local -r hostname="${2}"
+
+  # In .github/workflows/main.yml deployment is its own job
+  # and the image must be present to get its sha256 fingerprint.
+  docker pull "$(artifact_name)"
+
+  kosli expect deployment \
+    "$(artifact_name)" \
+    --artifact-type docker \
+    --description "Deployed to ${environment} in Github Actions pipeline" \
+    --environment "${environment}" \
+    --host "${hostname}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -35,90 +82,74 @@ on_ci_kosli_declare_pipeline()
     return
   fi
 
-  kosli_declare_pipeline https://staging.app.kosli.com
-  kosli_declare_pipeline https://app.kosli.com
+  kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
+  kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_log_artifact()
-{
-  local -r hostname="${1}"
-	docker run \
-    --env MERKELY_COMMAND=log_artifact \
-    --env MERKELY_OWNER=${MERKELY_OWNER} \
-    --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
-    --env MERKELY_FINGERPRINT=$(kosli_fingerprint) \
-    --env MERKELY_IS_COMPLIANT=TRUE \
-    --env MERKELY_ARTIFACT_GIT_COMMIT=${CYBER_DOJO_SHAS_SHA} \
-    --env MERKELY_ARTIFACT_GIT_URL=https://github.com/${MERKELY_OWNER}/${MERKELY_PIPELINE}/commit/${CYBER_DOJO_SHAS_SHA} \
-    --env MERKELY_CI_BUILD_NUMBER=${CIRCLE_BUILD_NUM} \
-    --env MERKELY_CI_BUILD_URL=${CIRCLE_BUILD_URL} \
-    --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
-    --env MERKELY_HOST="${hostname}" \
-    --rm \
-    --volume /var/run/docker.sock:/var/run/docker.sock \
-      ${MERKELY_CHANGE}
-}
-
-# - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_artifact()
+on_ci_kosli_report_artifact_creation()
 {
   if ! on_ci ; then
     return
   fi
 
-  kosli_log_artifact https://staging.app.kosli.com
-  kosli_log_artifact https://app.kosli.com
+  kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
+  kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_log_evidence()
-{
-  local -r hostname="${1}"
-
-	docker run \
-    --env MERKELY_COMMAND=log_evidence \
-    --env MERKELY_OWNER=${MERKELY_OWNER} \
-    --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
-    --env MERKELY_FINGERPRINT=$(kosli_fingerprint) \
-    --env MERKELY_EVIDENCE_TYPE=branch-coverage \
-    --env MERKELY_IS_COMPLIANT=TRUE \
-    --env MERKELY_DESCRIPTION="server & client line-coverage reports" \
-    --env MERKELY_USER_DATA="$(evidence_json_path)" \
-    --env MERKELY_CI_BUILD_URL=${CIRCLE_BUILD_URL} \
-    --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
-    --env MERKELY_HOST="${hostname}" \
-    --rm \
-    --volume "$(evidence_json_path):$(evidence_json_path)" \
-    --volume /var/run/docker.sock:/var/run/docker.sock \
-      ${MERKELY_CHANGE}
-}
-
-# - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_evidence()
+on_ci_kosli_report_coverage_evidence()
 {
   if ! on_ci ; then
     return
   fi
 
   write_evidence_json
-  kosli_log_evidence https://staging.app.kosli.com
-  kosli_log_evidence https://app.kosli.com
+  kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
+  kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-write_evidence_json()
+on_ci_kosli_assert_artifact()
 {
-  echo '{ "server": ' > "$(evidence_json_path)"
-  cat "${ROOT_DIR}/test/server/reports/coverage.json" >> "$(evidence_json_path)"
-  echo ', "client": ' >> "$(evidence_json_path)"
-  cat "${ROOT_DIR}/test/client/reports/coverage.json" >> "$(evidence_json_path)"
-  echo '}' >> "$(evidence_json_path)"
+  if ! on_ci ; then
+    return
+  fi
+  kosli_assert_artifact "${KOSLI_HOST_STAGING}"
+  kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-evidence_json_path()
-{
-  echo "${ROOT_DIR}/test/evidence.json"
+artifact_name() {
+  source "$(root_dir)/sh/echo_versioner_env_vars.sh"
+  export $(echo_versioner_env_vars)
+  echo "${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}"
 }
+
+# - - - - - - - - - - - - - - - - - - -
+write_coverage_json()
+{
+  {
+    echo '{ "server":'
+    cat "$(root_dir)/test/server/reports/coverage.json"
+    echo ', "client":'
+    cat "$(root_dir)/test/client/reports/coverage.json"
+    echo '}'
+  } > "$(coverage_json_path)"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+coverage_json_path()
+{
+  echo "$(root_dir)/test/evidence.json"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+root_dir()
+{
+  # Functions in this file are called after sourcing (not including)
+  # this file so root_dir() cannot use the path of this script.
+  git rev-parse --show-toplevel
+}
+
 
