@@ -25,7 +25,7 @@ kosli_report_artifact_creation()
 {
   local -r hostname="${1}"
 
-  cd "$(root_dir)"
+  cd "$(root_dir)"  # So we don't need --repo-root flag
 
   kosli pipeline artifact report creation \
     "$(artifact_name)" \
@@ -105,7 +105,7 @@ on_ci_kosli_report_coverage_evidence()
     return
   fi
 
-  write_evidence_json
+  write_coverage_json
   kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
   kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
 }
