@@ -25,10 +25,11 @@ kosli_report_artifact_creation()
 {
   local -r hostname="${1}"
 
+  cd "$(root_dir)"
+
   kosli pipeline artifact report creation \
     "$(artifact_name)" \
       --artifact-type docker \
-      --repo-root ../../.. \
       --host "${hostname}"
 }
 
