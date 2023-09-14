@@ -28,10 +28,11 @@ services:
       - shas
       - selenium
     env_file: [ .env ]
-    read_only: true
     restart: "no"
-    tmpfs: /tmp
-    volumes: [ "./test:/test/:ro" ]
+    volumes:
+      - "./test:/test/:ro"
+      - type: tmpfs
+        target: /tmp,tmpfs-mode=1770,tmpfs-size=10485760  # 10MB
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
   shas:
@@ -43,7 +44,9 @@ services:
       args: [ COMMIT_SHA ]
       context: source/server
     env_file: [ .env ]
-    read_only: true
     restart: "no"
-    tmpfs: /tmp
-    volumes: [ "./test:/test/:ro" ]
+    volumes:
+      - "./test:/test/:ro"
+      - type: tmpfs
+        target: /tmp,tmpfs-mode=1770,tmpfs-size=10485760  # 10MB
+

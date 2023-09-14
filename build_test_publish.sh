@@ -31,4 +31,5 @@ containers_down
 on_ci_publish_tagged_images
 on_ci_kosli_report_artifact
 on_ci_kosli_report_coverage_evidence
+on_ci_kosli_report_snyk_scan_evidence
 on_ci_kosli_assert_artifact
