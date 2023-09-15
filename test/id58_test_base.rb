@@ -48,8 +48,7 @@ class Id58TestBase < Minitest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  # :nocov:
-  ObjectSpace.define_finalizer(self, proc {
+  Minitest.after_run do
     slow = @@timings.select{ |_name,secs| secs > 0.000 }
     sorted = slow.sort_by{ |name,secs| -secs }.to_h
     size = sorted.size < 5 ? sorted.size : 5
@@ -60,8 +59,7 @@ class Id58TestBase < Minitest::Test
       break if index === size
     }
     puts
-  })
-  # :nocov:
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
@@ -113,10 +111,8 @@ class Id58TestBase < Minitest::Test
     @_id58
   end
 
-  # :nocov:
   def name58
     @_name58
   end
-  # :nocov:
 
 end

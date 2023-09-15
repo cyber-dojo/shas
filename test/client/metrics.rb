@@ -6,14 +6,14 @@
 MAX = {
   failures:0,
   errors:0,
-  warnings:1,
+  warnings:0,
   skips:0,
 
   duration:20,
 
   app: {
     lines: {
-       total:69,
+       total:52,
       missed:0,
     },
     branches: {
