@@ -5,7 +5,7 @@ server_up_healthy_and_clean()
   export SERVICE_NAME=shas
   export CONTAINER_NAME="${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}"
   export CONTAINER_PORT="${CYBER_DOJO_SHAS_PORT}"
-  augmented_docker_compose up --detach "${SERVICE_NAME}"
+  docker-compose up --detach "${SERVICE_NAME}"
   exit_non_zero_unless_healthy
   exit_non_zero_unless_started_cleanly
 }
@@ -17,7 +17,7 @@ client_up_healthy_and_clean()
     export SERVICE_NAME=client
     export CONTAINER_NAME="${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}"
     export CONTAINER_PORT="${CYBER_DOJO_SHAS_CLIENT_PORT}"
-    augmented_docker_compose up --detach "${SERVICE_NAME}"
+    docker-compose up --detach "${SERVICE_NAME}"
     exit_non_zero_unless_healthy
     exit_non_zero_unless_started_cleanly
   fi

@@ -4,8 +4,7 @@ set -Eeu
 # - - - - - - - - - - - - - - - - - - -
 containers_down()
 {
-  augmented_docker_compose \
-    down \
+  docker-compose down \
     --remove-orphans \
     --volumes
 }
