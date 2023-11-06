@@ -25,8 +25,8 @@ services:
     container_name: ${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}
     ports: [ "${CYBER_DOJO_SHAS_CLIENT_PORT}:${CYBER_DOJO_SHAS_CLIENT_PORT}" ]
     build:
-      args: [ COMMIT_SHA ]
       context: source/client
+      args: [ COMMIT_SHA ]
     depends_on:
       - nginx
       - shas
@@ -49,8 +49,8 @@ services:
     container_name: ${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}
     ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
     build:
+      context: .
       args: [ COMMIT_SHA ]
-      context: source/server
     env_file: [ .env ]
     read_only: true
     restart: "no"
