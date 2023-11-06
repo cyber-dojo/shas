@@ -15,3 +15,4 @@ server_up_healthy_and_clean
 client_up_healthy_and_clean "$@"
 test_in_containers "$@"
 containers_down
+write_test_evidence_json

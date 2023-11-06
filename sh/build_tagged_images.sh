@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-source "${ROOT_DIR}/sh/augmented_docker_compose.sh"
-
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_tagged_images()
 {

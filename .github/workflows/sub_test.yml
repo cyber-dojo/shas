@@ -1,0 +1,104 @@
+name: Sub - test image
+
+on:
+  workflow_call:
+    secrets:
+      KOSLI_API_TOKEN:
+        required: true
+      SNYK_TOKEN:
+        required: true
+    inputs:
+      KOSLI_DRY_RUN:
+        required: true
+        type: string
+      KOSLI_HOST:
+        required: true
+        type: string
+      KOSLI_CLI_VERSION:
+        required: true
+        type: string
+      KOSLI_ORG:
+        required: true
+        type: string
+      KOSLI_FLOW:
+        required: true
+        type: string
+      IMAGE_TAG:
+        required: true
+        type: string
+
+env: 
+  KOSLI_DRY_RUN: ${{ inputs.KOSLI_DRY_RUN }}
+  KOSLI_CLI_VERSION: ${{ inputs.KOSLI_CLI_VERSION }}
+  KOSLI_HOST: ${{ inputs.KOSLI_HOST }}
+  KOSLI_ORG: ${{ inputs.KOSLI_ORG }}
+  KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  KOSLI_FLOW: ${{ inputs.KOSLI_FLOW }}
+  IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+jobs:
+
+  branch-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ env.KOSLI_CLI_VERSION }}
+
+      - name: Run tests, save results to evidence.json file, report to Kosli flow
+        run: |
+          ./sh/run_tests_with_coverage.sh          
+          kosli report evidence artifact generic cyberdojo/shas:${{ env.IMAGE_TAG }} \
+              --artifact-type=docker \
+              --description="server & client branch-coverage reports" \
+              --name=branch-coverage \
+              --user-data=./test/evidence.json
+
+
+  snyk-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ env.KOSLI_CLI_VERSION }}
+
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Run Snyk to check Docker image for vulnerabilities
+        continue-on-error: true
+        run:
+           snyk container test cyberdojo/shas:${{ env.IMAGE_TAG }} 
+            --file=Dockerfile 
+            --json-file-output=snyk.json 
+            --policy-path=.snyk
+
+      - name: Report Snyk results to Kosli flow
+        run: |
+          docker pull cyberdojo/shas:${{ env.IMAGE_TAG }}
+          kosli report evidence artifact snyk cyberdojo/shas:${{ env.IMAGE_TAG }} \
+            --artifact-type=docker  \
+            --name=snyk-scan  \
+            --scan-results=snyk.json
+
+  sdlc-gate:
+    needs: [branch-coverage, snyk-scan]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ env.KOSLI_CLI_VERSION }}
+
+      - name: Kosli SDLC gate to short-circuit-the-flow
+        run: |
+          docker pull cyberdojo/shas:${{ env.IMAGE_TAG }}          
+          kosli assert artifact cyberdojo/shas:${{ env.IMAGE_TAG }} \
+            --artifact-type=docker

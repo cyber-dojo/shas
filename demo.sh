@@ -7,19 +7,9 @@ source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/lib.sh"
 
 export $(echo_versioner_env_vars)
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-ip_address()
-{
-  if [ -n "${DOCKER_MACHINE_NAME:-}" ]; then
-    docker-machine ip ${DOCKER_MACHINE_NAME}
-  else
-    printf localhost
-  fi
-}
-readonly IP_ADDRESS=$(ip_address)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_json_body_200()
@@ -33,7 +23,7 @@ curl_json_body_200()
     --request GET \
     --silent \
     --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
+      "http://localhost:$(port)/${route}" \
       > "$(log_filename)" 2>&1
 
   grep --quiet 200 "$(log_filename)" # eg HTTP/1.1 200 OK
@@ -51,7 +41,7 @@ curl_200()
     --request GET \
     --silent \
     --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
+      "http://localhost:$(port)/${route}" \
       > "$(log_filename)" 2>&1
 
   grep --quiet 200 "$(log_filename)" # eg HTTP/1.1 200 OK
@@ -66,7 +56,7 @@ log_filename() { echo -n /tmp/shas.log ; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 build_tagged_images
-augmented_docker_compose up --detach nginx
+docker-compose up --detach nginx
 server_up_healthy_and_clean
 echo
 echo API
@@ -81,5 +71,5 @@ echo
 if [ "${1:-}" == '--no-browser' ]; then
   containers_down
 else
-  open "http://${IP_ADDRESS}:80/shas/index"
+  open "http://localhost:80/shas/index"
 fi
