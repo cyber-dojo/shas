@@ -9,6 +9,11 @@ git_commit_sha()
     echo "$(cd "$(repo_root)" && git rev-parse HEAD)"
 }
 
+on_ci()
+{
+  [ -n "${CI:-}" ]
+}
+
 write_test_evidence_json()
 {
   {
