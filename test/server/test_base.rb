@@ -6,7 +6,7 @@ require_source 'externals'
 
 class TestBase < Id58TestBase
   include CaptureStdoutStderr
-  include Rack::Test::Methods # [1]
+  include Rack::Test::Methods
 
   def initialize(arg)
     super(arg)
@@ -17,7 +17,7 @@ class TestBase < Id58TestBase
   end
 
   def app
-    App.new(externals) # [1]
+    App.new(externals)
   end
 
   def display_names
