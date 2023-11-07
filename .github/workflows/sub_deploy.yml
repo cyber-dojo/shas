@@ -34,22 +34,6 @@ jobs:
         echo "aws_region=eu-central-1"                                           >> ${GITHUB_OUTPUT}
         echo "gh_actions_iam_role_name=gh_actions_services"                      >> ${GITHUB_OUTPUT}
 
-  push-latest-image-to-dockerhub:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASS }}
-
-      - name: Build and push image:latest to Dockerhub Registry
-        run: |
-          docker pull cyberdojo/shas:${{ env.IMAGE_TAG }}  
-          docker tag cyberdojo/shas:${{ env.IMAGE_TAG }} cyberdojo/shas:latest
-          docker push cyberdojo/shas:latest
-
   push-image-to-beta-ecr:
     needs: [setup-ci-vars]
     runs-on: ubuntu-latest
