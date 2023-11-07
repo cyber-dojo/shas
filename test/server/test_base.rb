@@ -17,7 +17,7 @@ class TestBase < Id58TestBase
   end
 
   def app
-    App.new(externals) # [1]
+    App.new(externals) # [1]
   end
 
   def display_names

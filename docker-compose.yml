@@ -1,36 +1,16 @@
 
-# This is augmented with dependent services by
-# sh/augmented_docker_compose.sh
-
 version: '3.7'
 
 services:
 
-  nginx:
-    image: cyberdojo/nginx-shas-stub
+  shas:
+    image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
+    user: ${CYBER_DOJO_SHAS_SERVER_USER}
+    container_name: ${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
     build:
-      context: source/nginx_stub
-    init: true
-    ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
-    user: root
-
-  selenium:
-    image: selenium/standalone-firefox
-    ports: [ "4444:4444" ]
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-  client:
-    image: ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-    user: ${CYBER_DOJO_SHAS_CLIENT_USER}
-    container_name: ${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}
-    ports: [ "${CYBER_DOJO_SHAS_CLIENT_PORT}:${CYBER_DOJO_SHAS_CLIENT_PORT}" ]
-    build:
-      context: source/client
+      context: .
       args: [ COMMIT_SHA ]
-    depends_on:
-      - nginx
-      - shas
-      - selenium
     env_file: [ .env ]
     read_only: true
     restart: "no"
@@ -43,14 +23,31 @@ services:
           size: 10485760  # 10MB
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-  shas:
-    image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-    user: ${CYBER_DOJO_SHAS_SERVER_USER}
-    container_name: ${CYBER_DOJO_SHAS_SERVER_CONTAINER_NAME}
-    ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
+
+  nginx:
+    image: cyberdojo/nginx-shas-stub
     build:
-      context: .
+      context: test/nginx_stub
+    init: true
+    ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
+    user: root
+
+  selenium:
+    image: selenium/standalone-firefox
+    ports: [ "4444:4444" ]
+
+  client:
+    image: ${CYBER_DOJO_SHAS_CLIENT_IMAGE}:${CYBER_DOJO_SHAS_TAG}
+    user: ${CYBER_DOJO_SHAS_CLIENT_USER}
+    container_name: ${CYBER_DOJO_SHAS_CLIENT_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_SHAS_CLIENT_PORT}:${CYBER_DOJO_SHAS_CLIENT_PORT}" ]
+    build:
+      context: test/client
       args: [ COMMIT_SHA ]
+    depends_on:
+      - nginx
+      - shas
+      - selenium
     env_file: [ .env ]
     read_only: true
     restart: "no"
