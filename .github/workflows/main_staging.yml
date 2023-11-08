@@ -47,7 +47,7 @@ jobs:
       - name: Create Kosli flow
         run:
           kosli create flow ${{ env.KOSLI_FLOW }} 
-            --description="Diff files from two traffic-lights" 
+            --description="UX for git+image shas" 
             --template=artifact,branch-coverage,snyk-scan
 
   wait-for-image:
